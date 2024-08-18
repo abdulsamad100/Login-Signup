@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Glassmorphism login Form Tutorial in html css</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form id="loginform">
+        <h3>Login Here</h3>
+        <p id="invalid" style="color: red; text-align: center;"></p>
+        <label for="username">Email</label>
+        <input type="text" placeholder="Email or Phone" id="email">
+        <p id="emptyemaill" style="color: red;"></p>
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="pass">
+        <p id="emptypassl" style="color: red;"></p>
+        <div class="go" id="resetinnerdiv"><i></i><a id="Reset">Forgot Password?</a></div>
+
+        <button id="login">Log In</button>
+        <br><br>
+        <div>
+            <div class="go"><i></i>New User? <a id="signuplink">Signup</a></div>
+        </div>
+    </form>
+
+    <form id="resetdiv" style="display: none;">
+        <h3>Reset Password</h3>
+        <label for="username">Email</label>
+        <input type="text" placeholder="Email or Phone" id="emailr">
+        <p id="emptyemailr" style="color: red;"></p>
+
+        <button id="resetpass">Send Email</button>
+        <br><br>
+        <div>
+            <div class="go"><i></i>New User? <a id="signuplinkr">Signup</a></div>
+        </div>
+    </form>
+
+    <form id="signupform" style="display: none;">
+        <h3>Signup Here</h3>
+
+        <label for="username">Email</label>
+        <input type="text" placeholder="Email or Phone" id="suemail">
+        <p id="emptyemail" style="color: red;"></p>
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="supass">
+        <p id="emptypass" style="color: red;"></p>
+
+        <button id="signup">Signup</button>
+        <br><br>
+        <div>
+            <div class="go"><i></i>Existing User? <a id="loginlink">Login</a></div>
+        </div>
+    </form>
+
+    <script src="app.js" type="module"></script>
+</body>
+
+</html>
