@@ -30,11 +30,37 @@ const signUpUser = async (ev) => {
       }, 2000);
       return;
     }
+    
     await createUserWithEmailAndPassword(auth, email.value, pass.value);
     alert("Signup Succesful");
   }
   catch (e) {
-    console.log(e);
+    const errormessage = e.message
+    console.log(errormessage);
+    if (errormessage == "Firebase: Error (auth/invalid-credential).") {
+      let txt = document.querySelector("#invalid");
+      txt.innerText = "Email/Password is Wrong";
+      setTimeout(() => {
+        txt.innerText = "";
+      }, 2000);
+      return;
+    }
+    if (errormessage == "Firebase: Error (auth/invalid-email).") {
+      let txt = document.querySelector("#invalid");
+      txt.innerText = "Kindly type Correct Email Format";
+      setTimeout(() => {
+        txt.innerText = "";
+      }, 2000);
+      return;
+    }
+    if (errormessage == "Firebase: Password should be at least 6 characters (auth/weak-password).") {
+      let txt = document.querySelector("#invalid");
+      txt.innerText = "Email Must be 6 Letter atleast";
+      setTimeout(() => {
+        txt.innerText = "";
+      }, 2000);
+      return;
+    }
   }
 }
 
@@ -76,6 +102,14 @@ const loginUser = async (ev) => {
     if (errormessage == "Firebase: Error (auth/invalid-email).") {
       let txt = document.querySelector("#invalid");
       txt.innerText = "Kindly type Correct Email Format";
+      setTimeout(() => {
+        txt.innerText = "";
+      }, 2000);
+      return;
+    }
+    if (errormessage == "Firebase: Password should be at least 6 characters (auth/weak-password).") {
+      let txt = document.querySelector("#invalid");
+      txt.innerText = "Email Must be 6 Letter atleast";
       setTimeout(() => {
         txt.innerText = "";
       }, 2000);
