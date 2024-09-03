@@ -3,11 +3,14 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-  fetchSignInMethodsForEmail }
+  fetchSignInMethodsForEmail,
+  GoogleAuthProvider,
+  signInWithPopup }
   from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { app } from "./firebase.js";
 
 const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 const signUpUser = async (ev) => {
   ev.preventDefault();
@@ -158,7 +161,20 @@ const resetpass = async (ev) => {
   }
 };
 
-
+const googleLogin= async (ev) => {
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    window.location.href="login.html"
+  }).catch((error) => {
+    console.log(error.message);
+    const email = error.customData.email;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+  });
+}
+document.querySelector("#googlelogin").addEventListener("click",googleLogin)
 
 document.querySelector("#loginlink").addEventListener("click", () => {
   document.querySelector("#signupform").style.display = "none";
