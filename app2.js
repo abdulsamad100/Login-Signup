@@ -17,8 +17,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     await onAuthStateChanged(auth, (user) => {
         if (user) {
             console.log(user);
-            DP.src = user.photoURL;
-            name.innerText = user.displayName;
+            if(user.photoURL){
+                DP.src = user.photoURL;
+            }
+            else{
+                DP.src = "./defaultuser.svg"
+            }
+            if(user.displayName){
+                name.innerText = user.displayName;
+            }
+            else{
+                name.innerText = "Hello User";
+            }
+            
             email.innerText = user.email;
         } else {
             window.location.href = "index.html";

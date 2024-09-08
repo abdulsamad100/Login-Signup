@@ -5,12 +5,12 @@ import {
   sendPasswordResetEmail,
   fetchSignInMethodsForEmail,
   GoogleAuthProvider,
-  signInWithPopup }
+  signInWithPopup,
+  OAuthProvider }
   from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { app } from "./firebase.js";
 
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
 
 const signUpUser = async (ev) => {
   ev.preventDefault();
@@ -162,6 +162,7 @@ const resetpass = async (ev) => {
 };
 
 const googleLogin= async (ev) => {
+  const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
   .then((result) => {
     const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -174,7 +175,22 @@ const googleLogin= async (ev) => {
     const credential = GoogleAuthProvider.credentialFromError(error);
   });
 }
+
+const msLogin= async (ev) => {
+const provider = new OAuthProvider('microsoft.com');
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    const credential = OAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    window.location.href="login.html"
+  }).catch((error) => {
+    console.log(error.message);
+  });
+}
+
 document.querySelector("#googlelogin").addEventListener("click",googleLogin)
+document.querySelector("#microsoftlogin").addEventListener("click",msLogin)
 
 document.querySelector("#loginlink").addEventListener("click", () => {
   document.querySelector("#signupform").style.display = "none";
