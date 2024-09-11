@@ -1,22 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
 </head>
+
 <body>
-    <div id="profile">
-        <div><img src="" alt="Your profile Image" id="DP"></div>
-        <br>
+    <div><img src="" alt="Your profile Image" id="DP"></div>
+    <div id="profile" class="displaynone">
         <h1 id="name"></h1>
-        <br>
         <p id="email"></p>
         <button id="logout">Log Out</button>
     </div>
-    <br>
+
+    <div id="allbtns">
+        <button id="viewform">View Todo</button>
+        <button id="addForm">Add Todo</button>
+    </div>
+    <div id="adddiv" class="displaynone">
+        <h2>Add Todos</h2>
+        <label for="heading">Todo Title: </label>
+        <input type="text" id="todo-title">
+        <label for="desc">Todo Details: </label>
+        <textarea name="" id="todo-des"></textarea>
+        <button id="addBtn">Add</button>
+    </div>
+    <div id="viewdiv" class="displaynone">
+        <h2>View Todos</h2>
+        <div id="todos-list">
+            <div id="singletodo">
+                <h3></h3>
+                <p></p>
+                <h4>Status: </h4>
+            </div>
+        </div>
+    </div>
 
     <script src="app2.js" type="module"></script>
 </body>
+
 </html>

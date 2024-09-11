@@ -1,0 +1,59 @@
+body{
+  background-color: #080710;
+  color: white;
+}
+.displaynone{
+  display: none !important;
+}
+
+#profile{
+  position: absolute;
+  top: 88px;
+  right: 23px;
+  padding: 0px 20px 20px 20px ;
+  border-radius: 10px;
+  background-color: white;
+  align-items: center;
+  width: max-content;
+  color: black;
+}
+
+#DP{
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  padding: 5px;
+  border-radius: 50%;
+  width: 60px;
+  cursor: pointer;
+}
+
+#logout{
+  width: 130px;
+  height: 50px;
+  padding: 5px 2px 5px 2px;
+  color: black;
+}
+button {
+  margin-top: 20px;
+  width: 100px;
+  background-color: #ffffff;
+  color: #080710;
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#adddiv,#viewdiv{
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+}
+
+#todo-des{
+  width: 170px;
+  height: 100px;
+  resize: none;
+}

@@ -161,33 +161,6 @@ a {
   gap: 20px;
 }
 
-#profile>*{
-  color: white;
-}
-
-#DP{
-  border-radius: 50%;
-  width: 150px;
-}
-
-#logout{
-  width: 130px;
-  height: 50px;
-  padding: 5px 2px 5px 2px;
-  color: black;
-}
-
-#profile{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 250px;
-}
-
 hr {
   width: 145px;
   height: 2px;
@@ -208,3 +181,10 @@ hr {
 #ordiv>p{
   margin-top: 15px !important;
 }
+
+.disabled{
+  background-color: lightgray;
+  color: gray;
+  cursor: not-allowed;
+}
+

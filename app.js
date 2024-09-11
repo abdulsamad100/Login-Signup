@@ -1,4 +1,4 @@
-import { 
+import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -6,14 +6,24 @@ import {
   fetchSignInMethodsForEmail,
   GoogleAuthProvider,
   signInWithPopup,
-  OAuthProvider }
-  from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  OAuthProvider,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { app } from "./firebase.js";
 
 const auth = getAuth(app);
 
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    location.href="login.html";
+  }
+})
+
 const signUpUser = async (ev) => {
   ev.preventDefault();
+  const su = document.querySelector("#signup");
+  su.disabled = true;
+  su.classList.add("disabled");
   try {
     const email = document.querySelector("#suemail");
     const pass = document.querySelector("#supass");
@@ -23,6 +33,8 @@ const signUpUser = async (ev) => {
       setTimeout(() => {
         txt.innerText = "";
       }, 2000);
+      su.disabled = false;
+      su.classList.remove("disabled");
       return;
     }
     if (pass.value == "") {
@@ -31,11 +43,20 @@ const signUpUser = async (ev) => {
       setTimeout(() => {
         txt.innerText = "";
       }, 2000);
+      su.disabled = false;
+      su.classList.remove("disabled");
       return;
     }
-    
+    let txt = document.querySelector("#invalid2");
+    txt.style.color = "green";
+    txt.innerText = "Signup Succesful";
+    setTimeout(() => {
+      txt.innerText = "";
+      txt.style.color = "red";
+    }, 2000);
     await createUserWithEmailAndPassword(auth, email.value, pass.value);
-    alert("Signup Succesful");
+    su.disabled = false;
+    su.classList.remove("disabled");
   }
   catch (e) {
     const errormessage = e.message
@@ -71,6 +92,9 @@ const signUpUser = async (ev) => {
 
 const loginUser = async (ev) => {
   ev.preventDefault();
+  const lg = document.querySelector("#login");
+  lg.disabled = true;
+  lg.classList.add("disabled");
   try {
     const email = document.querySelector("#email");
     const pass = document.querySelector("#pass");
@@ -80,6 +104,8 @@ const loginUser = async (ev) => {
       setTimeout(() => {
         txt.innerText = "";
       }, 2000);
+      lg.disabled = false;
+      lg.classList.remove("disabled");
       return;
     }
     if (pass.value == "") {
@@ -88,14 +114,17 @@ const loginUser = async (ev) => {
       setTimeout(() => {
         txt.innerText = "";
       }, 2000);
+      lg.disabled = false;
+      lg.classList.remove("disabled");
       return;
     }
     await signInWithEmailAndPassword(auth, email.value, pass.value);
+    lg.disabled = false;
+    lg.classList.remove("disabled");
     window.location.href = "login.html"
   }
   catch (e) {
     const errormessage = e.message
-    console.log(errormessage);
     if (errormessage == "Firebase: Error (auth/invalid-credential).") {
       let txt = document.querySelector("#invalid");
       txt.innerText = "Email/Password is Wrong";
@@ -115,6 +144,14 @@ const loginUser = async (ev) => {
     if (errormessage == "Firebase: Password should be at least 6 characters (auth/weak-password).") {
       let txt = document.querySelector("#invalid");
       txt.innerText = "Email Must be 6 Letter atleast";
+      setTimeout(() => {
+        txt.innerText = "";
+      }, 2000);
+      return;
+    }
+    if (errormessage == "Firebase: Error (auth/user-not-found).") {
+      let txt = document.querySelector("#invalid");
+      txt.innerText = "User Not Found";
       setTimeout(() => {
         txt.innerText = "";
       }, 2000);
@@ -161,36 +198,36 @@ const resetpass = async (ev) => {
   }
 };
 
-const googleLogin= async (ev) => {
+const googleLogin = async (ev) => {
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
-  .then((result) => {
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    const user = result.user;
-    window.location.href="login.html"
-  }).catch((error) => {
-    console.log(error.message);
-    const email = error.customData.email;
-    const credential = GoogleAuthProvider.credentialFromError(error);
-  });
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      window.location.href = "login.html"
+    }).catch((error) => {
+      console.log(error.message);
+      const email = error.customData.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+    });
 }
 
-const msLogin= async (ev) => {
-const provider = new OAuthProvider('microsoft.com');
+const msLogin = async (ev) => {
+  const provider = new OAuthProvider('microsoft.com');
   signInWithPopup(auth, provider)
-  .then((result) => {
-    const credential = OAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    const user = result.user;
-    window.location.href="login.html"
-  }).catch((error) => {
-    console.log(error.message);
-  });
+    .then((result) => {
+      const credential = OAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      window.location.href = "login.html"
+    }).catch((error) => {
+      console.log(error.message);
+    });
 }
 
-document.querySelector("#googlelogin").addEventListener("click",googleLogin)
-document.querySelector("#microsoftlogin").addEventListener("click",msLogin)
+document.querySelector("#googlelogin").addEventListener("click", googleLogin)
+// document.querySelector("#microsoftlogin").addEventListener("click",msLogin)
 
 document.querySelector("#loginlink").addEventListener("click", () => {
   document.querySelector("#signupform").style.display = "none";
