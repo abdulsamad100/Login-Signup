@@ -59,7 +59,7 @@ button {
   margin-left: 70px;  
 }
 
-#viewLoader{
+#viewLoader,#viewLoader2{
   width: 50px;
   /* margin-top: -20px;   */
 }
@@ -79,10 +79,19 @@ h4{
 }
 
 .singleDltBtn{
+  margin-top: 25px;
   margin-bottom: 20px;
   width: 70px;
   color: white;
   background-color: red;
+  font-size: 12px;
+}
+.singleCmpBtn{
+  margin-top: 25px;
+  margin-bottom: 20px;
+  width: max-content;
+  color: black;
+  background-color: lawngreen;
   font-size: 12px;
 }
 

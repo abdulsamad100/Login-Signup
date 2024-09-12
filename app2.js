@@ -12,7 +12,10 @@ import {
     getDocs,
     deleteDoc,
     doc,
-    query, where, orderBy, limit
+    query,
+    where,
+    updateDoc,
+    orderBy, limit
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 import { app } from "./firebase.js";
@@ -31,11 +34,10 @@ onAuthStateChanged(auth, (user) => {
     }
 })
 
-
 DP.addEventListener("click", () => {
     document.querySelector("#profile").classList.toggle("displaynone");
 })
-let cuser = 0;
+
 document.addEventListener("DOMContentLoaded", async () => {
     await onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -105,12 +107,6 @@ const addData = async () => {
     } catch (e) {
         console.log(e)
     }
-    //  catch (e) {
-    //     toastr.error("Error adding document: ");
-    //     addLoader.classList.add("displaynone");
-    //     addBtn.disabled = false;
-    //     addBtn.classList.remove("disabled");
-    // }
 }
 
 const readData = async () => {
@@ -124,7 +120,7 @@ const readData = async () => {
     const viewLoader = document.querySelector("#viewLoader");
     viewLoader.classList.remove("displaynone")
     try {
-        const todosQuery = query(collection(db, "todos"), where("uid", "==", currentuser.uid));
+        const todosQuery = query(collection(db, "todos"), where("uid", "==", currentuser.uid), where("isCompleted", "==", false));
         const querySnapshot = await getDocs(todosQuery);
         // console.log(`Fetched ${querySnapshot.size} todos for user ${currentuser.uid}`);
         if (querySnapshot.size > 0) {
@@ -136,6 +132,7 @@ const readData = async () => {
                     <p>Detail: ${data.des}</p>
                     <h4>Status: ${data.isCompleted == false ? "Pending" : "Completed"}</h4>
                     <button onclick="dltData('${doc.id}')" class="singleDltBtn">Delete</button>
+                    <button onclick="cmpData('${doc.id}')" class="singleCmpBtn">Completed</button>
                 </div>
             `;
                 list.innerHTML += ctodo;
@@ -152,35 +149,90 @@ const readData = async () => {
     }
 }
 
+const readCData = async () => {
+    if (!currentuser) {
+        console.log("No current user, cannot fetch data");
+        return;
+    }
+
+    const list = document.querySelector("#todos-list2");
+    list.innerHTML = "";
+    const viewLoader = document.querySelector("#viewLoader2");
+    viewLoader.classList.remove("displaynone")
+    try {
+        const todosQuery = query(collection(db, "todos"), where("uid", "==", currentuser.uid), where("isCompleted", "==", true));
+        const querySnapshot = await getDocs(todosQuery);
+        if (querySnapshot.size > 0) {
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const ctodo = `
+                <div id="singletodo2">
+                    <h3>Title: ${data.title}</h3>
+                    <p>Detail: ${data.des}</p>
+                    <h4>Status: ${data.isCompleted == false ? "Pending" : "Completed"}</h4>
+                    <button onclick="dltCData('${doc.id}')" class="singleDltBtn">Delete</button>
+                </div>
+            `;
+                list.innerHTML += ctodo;
+            });
+        }
+        else {
+            const ctodo = `<h4 id="noTodo">No Todos Found. Kindly Add Todos.</h4>`
+            list.innerHTML += ctodo;
+        }
+        viewLoader.classList.add("displaynone")
+
+    } catch (e) {
+        toastr.error("Error Fetching Data")
+    }
+}
 
 window.dltData = async (dltid) => {
-    // const dltbtns = document.querySelector(".singleDltBtn");
-    // dltbtns.forEach((cBtn) => {
-    //     cBtn.disabled = true;
-    //     cBtn.classList.add("disabled")
-    // })
     await deleteDoc(doc(db, "todos", dltid));
-    // dltbtns.forEach((cBtn) => {
-    //     cBtn.disabled = false;
-    //     cBtn.classList.remove("disabled")
-    // })
     toastr.success("Todo Deleted Successfully")
     readData();
 }
 
-document.querySelector("#addBtn").addEventListener("click", addData)
+window.dltCData = async (dltid) => {
+    await deleteDoc(doc(db, "todos", dltid));
+    toastr.success("Todo Deleted Successfully")
+    readCData();
+}
 
-document.querySelector("#addForm").addEventListener("click", () => {
-    document.querySelector("#adddiv").classList.remove("displaynone")
-    document.querySelector("#viewdiv").classList.add("displaynone")
-
-})
-
-document.querySelector("#viewform").addEventListener("click", () => {
-    document.querySelector("#adddiv").classList.add("displaynone")
-    document.querySelector("#viewdiv").classList.remove("displaynone")
+window.cmpData = (id) => {
+    const db = getFirestore();
+    async (e) => {
+        await updateDoc(doc(db, "todos", id), {
+            isCompleted: true
+        });
+    }
     readData();
-})
+    }
+
+    document.querySelector("#addBtn").addEventListener("click", addData)
+
+    document.querySelector("#addForm").addEventListener("click", () => {
+        document.querySelector("#adddiv").classList.remove("displaynone")
+        document.querySelector("#viewdiv").classList.add("displaynone")
+        document.querySelector("#viewCdiv").classList.add("displaynone")
+
+    })
+
+    document.querySelector("#viewform").addEventListener("click", () => {
+        document.querySelector("#adddiv").classList.add("displaynone")
+        document.querySelector("#viewCdiv").classList.add("displaynone")
+        document.querySelector("#viewdiv").classList.remove("displaynone")
+        readData();
+    })
+
+    document.querySelector("#viewCform").addEventListener("click", () => {
+        document.querySelector("#adddiv").classList.add("displaynone")
+        document.querySelector("#viewCdiv").classList.remove("displaynone")
+        document.querySelector("#viewdiv").classList.add("displaynone")
+        readCData();
+    })
+
+
 
 // await signOut(auth).then(() => {
 //     window.location.href="index.html"

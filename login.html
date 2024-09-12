@@ -25,7 +25,8 @@
         </div>
 
         <div id="allbtns">
-            <button id="viewform">View Todo</button>
+            <button id="viewform">Pending Todo</button>
+            <button id="viewCform">Completed Todo</button>
             <button id="addForm">Add Todo</button>
         </div>
 
@@ -39,14 +40,23 @@
         </div>
 
         <div id="viewdiv" class="displaynone">
-            <h2 id="view-heading">View Todos</h2><br>
+            <h2 id="view-heading">Pending Todos</h2><br>
             <img src="Assets/loading.gif" alt="Loading Todos" id="viewLoader" class="displaynone">
             <div id="todos-list">
             </div>
         </div>
 
+        <div id="viewCdiv" class="displaynone">
+            <h2 id="view-heading">Completed Todos</h2><br>
+            <img src="Assets/loading.gif" alt="Loading Todos" id="viewLoader2" class="displaynone">
+            <div id="todos-list2">
+            </div>
+        </div>
+
     </div>
+
     <script src="app2.js" type="module"></script>
+    
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             document.querySelector("#wholePage").classList.add("displaynone");
