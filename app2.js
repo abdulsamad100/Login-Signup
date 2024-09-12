@@ -71,23 +71,46 @@ document.querySelector("#logout").addEventListener("click", async () => {
 })
 
 const addData = async () => {
-    const title = document.querySelector("#todo-title").value;
-    const des = document.querySelector("#todo-des").value;
+    const addLoader = document.querySelector("#addLoader");
+    const addBtn = document.querySelector("#addBtn");
+    addBtn.disabled = true;
+    addBtn.classList.add("disabled");
+    addLoader.classList.remove("displaynone");
+    let title = document.querySelector("#todo-title");
+    let des = document.querySelector("#todo-des");
+    if (title.value == "" || des.value == "") {
+        toastr.error("Kindly fill all Fields")
+        addLoader.classList.add("displaynone");
+        addBtn.classList.remove("disabled");
+        addBtn.disabled = false;
+        return;
+    }
     const createdAt = serverTimestamp();
     const uid = currentuser.uid;
     const isCompleted = false;
     try {
         const docRef = await addDoc(collection(db, "todos"), {
-            title,
-            des,
+            title: title.value,
+            des: des.value,
             createdAt,
             uid,
             isCompleted
         });
-        console.log("Document written with ID: ", docRef.id);
+        addLoader.classList.add("displaynone");
+        addBtn.disabled = false;
+        addBtn.classList.remove("disabled");
+        title.value = "";
+        des.value = "";
+        toastr.success("Todo Added Successfully");
     } catch (e) {
-        console.error("Error adding document: ", e);
+        console.log(e)
     }
+    //  catch (e) {
+    //     toastr.error("Error adding document: ");
+    //     addLoader.classList.add("displaynone");
+    //     addBtn.disabled = false;
+    //     addBtn.classList.remove("disabled");
+    // }
 }
 
 const readData = async () => {
@@ -98,37 +121,50 @@ const readData = async () => {
 
     const list = document.querySelector("#todos-list");
     list.innerHTML = "";
-
+    const viewLoader = document.querySelector("#viewLoader");
+    viewLoader.classList.remove("displaynone")
     try {
-        // Create a query object to filter todos by user ID
         const todosQuery = query(collection(db, "todos"), where("uid", "==", currentuser.uid));
-
-        // Fetch the documents based on the query
         const querySnapshot = await getDocs(todosQuery);
-        console.log(`Fetched ${querySnapshot.size} todos for user ${currentuser.uid}`);
-
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id);
-
-            const data = doc.data();
-            const ctodo = `
+        // console.log(`Fetched ${querySnapshot.size} todos for user ${currentuser.uid}`);
+        if (querySnapshot.size > 0) {
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const ctodo = `
                 <div id="singletodo">
                     <h3>Title: ${data.title}</h3>
                     <p>Detail: ${data.des}</p>
                     <h4>Status: ${data.isCompleted == false ? "Pending" : "Completed"}</h4>
-                    <button onclick="dltData('${doc.id}')">Delete</button>
+                    <button onclick="dltData('${doc.id}')" class="singleDltBtn">Delete</button>
                 </div>
             `;
+                list.innerHTML += ctodo;
+            });
+        }
+        else {
+            const ctodo = `<h4 id="noTodo">No Todos Found. Kindly Add Todos.</h4>`
             list.innerHTML += ctodo;
-        });
+        }
+        viewLoader.classList.add("displaynone")
+
     } catch (e) {
-        console.log("Error fetching data:", e);
+        toastr.error("Error Fetching Data")
     }
 }
 
 
 window.dltData = async (dltid) => {
+    // const dltbtns = document.querySelector(".singleDltBtn");
+    // dltbtns.forEach((cBtn) => {
+    //     cBtn.disabled = true;
+    //     cBtn.classList.add("disabled")
+    // })
     await deleteDoc(doc(db, "todos", dltid));
+    // dltbtns.forEach((cBtn) => {
+    //     cBtn.disabled = false;
+    //     cBtn.classList.remove("disabled")
+    // })
+    toastr.success("Todo Deleted Successfully")
     readData();
 }
 

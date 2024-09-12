@@ -54,6 +54,7 @@ const signUpUser = async (ev) => {
       txt.innerText = "";
       txt.style.color = "red";
     }, 2000);
+    toastr.success('SignUp Successful');
     await createUserWithEmailAndPassword(auth, email.value, pass.value);
     su.disabled = false;
     su.classList.remove("disabled");

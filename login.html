@@ -6,40 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </head>
 
 <body>
-    <div><img src="" alt="Your profile Image" id="DP"></div>
-    <div id="profile" class="displaynone">
-        <h1 id="name"></h1>
-        <p id="email"></p>
-        <button id="logout">Log Out</button>
-    </div>
+    <img src="Assets/loading.gif" alt="Loading..." id="mainLoader">
 
-    <div id="allbtns">
-        <button id="viewform">View Todo</button>
-        <button id="addForm">Add Todo</button>
-    </div>
-    <div id="adddiv" class="displaynone">
-        <h2>Add Todos</h2>
-        <label for="heading">Todo Title: </label>
-        <input type="text" id="todo-title">
-        <label for="desc">Todo Details: </label>
-        <textarea name="" id="todo-des"></textarea>
-        <button id="addBtn">Add</button>
-    </div>
-    <div id="viewdiv" class="displaynone">
-        <h2>View Todos</h2>
-        <div id="todos-list">
-            <div id="singletodo">
-                <h3></h3>
-                <p></p>
-                <h4>Status: </h4>
+    <div id="wholePage" class="displaynone">
+
+        <div><img src="" alt="Your profile Image" id="DP"></div>
+
+        <div id="profile" class="displaynone">
+            <h1 id="name"></h1>
+            <p id="email"></p>
+            <button id="logout">Log Out</button>
+        </div>
+
+        <div id="allbtns">
+            <button id="viewform">View Todo</button>
+            <button id="addForm">Add Todo</button>
+        </div>
+
+        <div id="adddiv" class="displaynone">
+            <h2>Add Todos</h2>
+            <label for="heading">Todo Title: </label>
+            <input type="text" id="todo-title">
+            <label for="desc">Todo Details: </label>
+            <textarea name="" id="todo-des"></textarea>
+            <button id="addBtn">Add</button> <img src="Assets/loading.gif" alt="" id="addLoader" class="displaynone">
+        </div>
+
+        <div id="viewdiv" class="displaynone">
+            <h2 id="view-heading">View Todos</h2><br>
+            <img src="Assets/loading.gif" alt="Loading Todos" id="viewLoader" class="displaynone">
+            <div id="todos-list">
             </div>
         </div>
-    </div>
 
+    </div>
     <script src="app2.js" type="module"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector("#wholePage").classList.add("displaynone");
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    document.querySelector("#mainLoader").classList.add("displaynone");
+                    document.querySelector("#wholePage").classList.remove("displaynone");
+                }, 2000);
+            });
+        });
+    </script>
+
 </body>
 
 </html>
