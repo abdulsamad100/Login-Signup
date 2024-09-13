@@ -25,7 +25,7 @@ const db = getFirestore(app);
 const name = document.querySelector("#name");
 const DP = document.querySelector("#DP");
 const email = document.querySelector("#email");
-let currentuser = false;
+let currentuser = undefined;
 
 onAuthStateChanged(auth, (user) => {
     currentuser = user;
@@ -199,39 +199,48 @@ window.dltCData = async (dltid) => {
     readCData();
 }
 
-window.cmpData = (id) => {
-    const db = getFirestore();
-    async (e) => {
-        await updateDoc(doc(db, "todos", id), {
-            isCompleted: true
-        });
-    }
-    readData();
-    }
-
-    document.querySelector("#addBtn").addEventListener("click", addData)
-
-    document.querySelector("#addForm").addEventListener("click", () => {
-        document.querySelector("#adddiv").classList.remove("displaynone")
-        document.querySelector("#viewdiv").classList.add("displaynone")
-        document.querySelector("#viewCdiv").classList.add("displaynone")
-
-    })
-
-    document.querySelector("#viewform").addEventListener("click", () => {
-        document.querySelector("#adddiv").classList.add("displaynone")
-        document.querySelector("#viewCdiv").classList.add("displaynone")
-        document.querySelector("#viewdiv").classList.remove("displaynone")
+window.cmpData = async (id) => {
+    const dltBtn = document.querySelector(".singleDltBtn");
+    const cmpBtn = document.querySelector(".singleCmpBtn");
+    dltBtn.disabled=true;
+    cmpBtn.disabled=true;
+    dltBtn.classList.add("disabled")
+    cmpBtn.classList.add("disabled")
+    try {
+        await updateDoc(doc(db, "todos", id), { isCompleted: true });
+        dltBtn.classList.remove("disabled")
+        cmpBtn.classList.remove("disabled")
+        dltBtn.disabled=false;
+        cmpBtn.disabled=false;
         readData();
-    })
+    } catch (error) {
+        console.error("Error updating todo:", error);
+        toastr.error("Error marking todo as complete");
+    }
+}
 
-    document.querySelector("#viewCform").addEventListener("click", () => {
-        document.querySelector("#adddiv").classList.add("displaynone")
-        document.querySelector("#viewCdiv").classList.remove("displaynone")
-        document.querySelector("#viewdiv").classList.add("displaynone")
-        readCData();
-    })
+document.querySelector("#addBtn").addEventListener("click", addData)
 
+document.querySelector("#addForm").addEventListener("click", () => {
+    document.querySelector("#adddiv").classList.remove("displaynone")
+    document.querySelector("#viewdiv").classList.add("displaynone")
+    document.querySelector("#viewCdiv").classList.add("displaynone")
+
+})
+
+document.querySelector("#viewform").addEventListener("click", () => {
+    document.querySelector("#adddiv").classList.add("displaynone")
+    document.querySelector("#viewCdiv").classList.add("displaynone")
+    document.querySelector("#viewdiv").classList.remove("displaynone")
+    readData();
+})
+
+document.querySelector("#viewCform").addEventListener("click", () => {
+    document.querySelector("#adddiv").classList.add("displaynone")
+    document.querySelector("#viewCdiv").classList.remove("displaynone")
+    document.querySelector("#viewdiv").classList.add("displaynone")
+    readCData();
+})
 
 
 // await signOut(auth).then(() => {
