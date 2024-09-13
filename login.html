@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
+
     <link rel="stylesheet" href="CSS Files/style2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </head>
@@ -19,7 +23,7 @@
         <div><img src="" alt="Your profile Image" id="DP"></div>
 
         <div id="profile" class="displaynone">
-            <h1 id="name"></h1>
+            <h2 id="name"></h2>
             <p id="email"></p>
             <button id="logout">Log Out</button>
         </div>
@@ -32,22 +36,25 @@
 
         <div id="adddiv" class="displaynone">
             <h2>Add Todos</h2>
-            <label for="heading">Todo Title: </label>
-            <input type="text" id="todo-title">
-            <label for="desc">Todo Details: </label>
-            <textarea name="" id="todo-des"></textarea>
-            <button id="addBtn">Add</button> <img src="Assets/loading.gif" alt="" id="addLoader" class="displaynone">
+            <div id="addInner">
+                <label for="heading">Todo Title: </label>
+                <input type="text" id="todo-title">
+                <label for="desc">Todo Details: </label>
+                <textarea name="" id="todo-des"></textarea>
+                <button id="addBtn">Add</button> <img src="Assets/loading.gif" alt="" id="addLoader"
+                    class="displaynone">
+            </div>
         </div>
 
         <div id="viewdiv" class="displaynone">
-            <h2 id="view-heading">Pending Todos</h2><br>
+            <h2 id="view-heading"><span id="orange">•</span> Pending Todos</h2><br>
             <img src="Assets/loading.gif" alt="Loading Todos" id="viewLoader" class="displaynone">
             <div id="todos-list">
             </div>
         </div>
 
         <div id="viewCdiv" class="displaynone">
-            <h2 id="view-heading">Completed Todos</h2><br>
+            <h2 id="view-heading"><span id="green">•</span> Completed Todos</h2><br>
             <img src="Assets/loading.gif" alt="Loading Todos" id="viewLoader2" class="displaynone">
             <div id="todos-list2">
             </div>
@@ -55,8 +62,20 @@
 
     </div>
 
+    <div id="pg-blur" class="displaynone">
+        <div id="update-div">
+            <h2>Update Details</h2>
+            <h3>Title: </h3>
+            <input type="text" id="update-title">
+            <h3>Description: </h3>
+            <textarea name="" id="update-des"></textarea><br>
+            <button id="DataUpdate">Update</button>
+            <i class='bx bx-arrow-back' id="backbtn"></i>
+        </div>
+    </div>
+
     <script src="JS Files/app2.js" type="module"></script>
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             document.querySelector("#wholePage").classList.add("displaynone");

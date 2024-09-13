@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: #080710;
+  /* background-color: #080710; */
 }
 
 .background {
@@ -29,7 +29,7 @@ body {
 .shape:first-child {
   background: linear-gradient(#1845ad, #23a2f6);
   left: -80px;
-  top: -80px;
+  top: -90px;
 }
 
 .shape:last-child {
@@ -41,21 +41,22 @@ body {
 form {
   height: 520px;
   width: 400px;
-  background-color: rgba(255, 255, 255, 0.13);
+  background-color: rgba(255, 255, 255, 0.162);
   position: absolute;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
   border-radius: 10px;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-  padding: 40px 35px;
+  backdrop-filter: blur(30px);
+  border: 2px solid rgba(0, 0, 0, 0.151);
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.136);
+  padding: 30px 25px;
 }
 
 form * {
   font-family: "Poppins", sans-serif;
-  color: #ffffff;
+  /* color: #ffffff; */
   letter-spacing: 0.5px;
   outline: none;
   border: none;
@@ -85,17 +86,20 @@ input {
   margin-top: 8px;
   font-size: 14px;
   font-weight: 300;
+  border: 1px solid black;
 }
 
-::placeholder {
-  color: #e5e5e5;
+input:focus{
+  transition: .25s;
+  border: 1px solid #23a2f6;
+  box-shadow: 0px 0px 10px #23a2f6 ;
 }
 
 button {
   margin-top: 50px;
   width: 100%;
-  background-color: #ffffff;
-  color: #080710;
+  background-color: #2664f4;
+  color: white;
   padding: 15px 0;
   font-size: 18px;
   font-weight: 600;
@@ -164,10 +168,9 @@ a {
 hr {
   width: 145px;
   height: 2px;
-  border: .5px solid white; /* set border style */
+  border: .5px solid;
   z-index: 999;
-  margin-top: 20px;
-  color: white !important; 
+  margin-top: 20px; 
 }
 
 #ordiv{
