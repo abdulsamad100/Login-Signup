@@ -1,4 +1,3 @@
-readme_content = """
 # Todos-Using-Firebase
 
 This project is a simple **To-Do List** application built using **Firebase** for backend functionalities. It allows users to create, read, update, and delete their tasks in real-time.
@@ -27,3 +26,4 @@ To get started with this project, follow these steps:
 ### Steps
 
 1. **Clone the Repository**  
+git clone https://github.com/abdulsamad100/Todos-Using-Firebase.git cd Todos-Using-Firebase
