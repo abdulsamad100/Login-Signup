@@ -42,9 +42,7 @@ onAuthStateChanged(auth, (user) => {
     //             readData();
     //         }
     //         else{
-    //             setTimeout(()=>{
-    //                 readData
-    //             },2000)
+    //             return;
     //         }
     //     },
     //     (error) => {
